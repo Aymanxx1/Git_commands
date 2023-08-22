@@ -1,0 +1,116 @@
+ Git Configuration
+ 
+git config --global user.name "user name"
+git config --global user.email "email"
+
+git config --list : to check your configuration settings 
+
+-------------------------------------------------------------------------------------
+git init : creates a new Git repository.
+
+git status :displays the state of the working directory and the staging area
+git status -s : للاختصار  
+
+git add : adds new or changed files in your working directory to the Git staging area.
+git add . : to add all files to staging area .
+
+git commit -m "message " :create a snapshot of the staged changes along a timeline of a Git projects history.
+git commit -am : to add and commit in one momant 
+git commit --amend : to edit commit message هتعدل في اخر رساله commit
+
+git log : displays all of the commits in a repository's history.
+git log --oneline :بشكل مختصر
+
+---------------------------------------------------------------------------
+ls : to see files in working tree
+
+git ls-files : to see files in indix or staging area 
+git ls-files -s :هيوريني ال sha1 بتاعه 
+
+find .git/objects/ -type f : to see files in repo 
+
+________________________________________________________
+git cat-file -t " sha-1" : هتقرا ال type بتاع sha1 
+git cat-file -s "sha-1"  :هتقرا ال size بتاع sha1
+git cat-file -p "sha-1"  : هتقرا ال contant بتاع sha1 
+-------------------------------------------------------------------------
+workflow بتاعك للتتبع لاي commit 
+1- git cat-file -p "sha-1 for commit " 
+2- git cat-file -p  "sha-1 for tree " 
+3- git cat-file -p  "sha-1 for blob " 
+
+git show "sha-1" : تقدر تختصر اللي فوق 
+---------------------------------------------------------------------------------
+git diff : Show changes between the working tree and the index
+git diff --staged : Show changes between the index and the repo
+
+git diff "sha1".."sha1" : to show changes between two commites 
+---------------------------------------------------------------------------------
+undoing commends 
+
+git rm --cached "file name" : removes a file from the Git index AND keeps it in the working area . يعني الفيل اللي خليته تراكد ارجعه ان تراكد تاني 
+
+git restore "file name " :  to discard changes in working directory 
+يعني بيشوف اخر حاله في indix ويرجع ال working tree ليها 
+git restore --staged "file name " : to unstaged 
+عشان احول ال files from staged to unstaged لكن التعديلات زي ما هي
+
+-----------
+الطريقه اللي ارجع بيها في ال commit versions قديمه ان انا احرك ال head بالتالي كل ما احرك ال head ل version قديم ال working tree هتتغير بردك للاصدار دا 
+
+وممكن اخليه يسمع في ال working tree مباشرة او ممكن اخليه يسمع في staging الاول عشان اشوف ال diff الاول مابين wt و ال staged وبعدين تعمله unstaged بعدين discard modefications 
+
+git reset HEAD : هيودي علي ال staging area 
+git reset HEAD~1 : يعني يرجعلك فيرجن لورا 
+git restore "file name : الخطوة التانيه
+
+git reset HEAD --hard HEAD ~1 : هودي علي working tree علي طول 
+
+git reflog :عشان اعرف اشوف log commits حتي لو نقلت لفيرجن قديم 
+
+git reset HEAD --hard HEAD "الرفرينس " : to make fastfrowad version 
+-------------------------------------------------------------------------------------------------------
+annotated tages :عشان اقدر اعلم علي كوميت معين واعرف ان دا فيرجن جديد لان مش كل كوميت عندي يعتبر فيرجن 
+
+git tag -a "input version num " -m "message "	
+
+exmp : git tag -a v2.0 -m "version 2.0 of file "
+بعدين اعمل git show v2.0 هيظهرلك علي طول version 
+-----------------------------------------------------------------------------------------------------------------------------------
+البرنش : هي مجموعه من ال commit المتاربطه مع بعض بشكل liner عن طريق ال parent 
+git branch "name" : to creat new branch 
+git branch : to see your branches 
+git checkout "name " : to change your current branch 
+(git switch) 
+
+git merge " name " : to merge two branches "خلي بالك لذمن تكون علي الماستر " 
+git branch --merged : هيوريك البرنشس اللي اتعملها ميرج في الماستر 
+git branch -d "name" : to delet ranch 
+git branch -M main : to change branch from master to main 
+
+fastfroward merge : دا لو عايز تعمل ميرج مابين الماستر والبرنش التاني بدون ما تعمل اي تغير في الماستر 
+3 way merge : دا لو عايز تعمل ميرج مابين الماستر والبرنش التاني لكن غيرت في الاتنين ساعتها هيعملك كوميت جديد يمرج فيهم الاتنين 
+
+-------------------------------------------------------------------------------------------------------------------------------
+remote repo 
+
+git clone : downloads an existing Git repository to your local computer
+git remote : show you all remotes repo 
+ال origin بيوضح ان دا loacl repo متاخد من remote repo 
+git remote add : to add more remotes 
+
+1-git fetch origin : downloads new data from a remote repository but don't merge with local repo 
+2-git merge :الخطوة التانيه عشان تظهر في loacl repo انك تعمل ميرج 
+تقدر تختصر الخطوتين دول ب command اللي هو>> git pull origin 
+
+git push origin : push the current branch to the branch of the matching name in the remote repository 
+خلي بالك لذمن يكون البرنش اللي هتعمله push  يقابله برنش تاني في ال remote يعني مثلا master مع master 
+طيب لو انا عملت برنش جديد في loacl وحبيت اعمله push ساعتها هستخدم ال command دا مرة واحد 
+>>git push -u origin "name of branch " : كدة الاول هيعمل برانش الاول في الريموت وبعدين يقابله بالبرنش اللي ف لوكل 
+
+---------------------------------------------------------------------------------------------------------------------
+alias graph= "git log --oneline --all --graph --decorate " : عشان تكتب كلمه تختصر بيها الكومند بتاعك 
+
+
+
+
